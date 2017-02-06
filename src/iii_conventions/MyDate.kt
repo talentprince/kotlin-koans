@@ -4,11 +4,23 @@ data class MyDate(val year: Int, val month: Int, val dayOfMonth: Int)
 
 operator fun MyDate.rangeTo(other: MyDate): DateRange =  DateRange(this, other)
 
+operator fun MyDate.plus(time: TimeInterval): MyDate {
+    return this.addTimeIntervals(time, 1)
+}
+
+operator fun MyDate.plus(time: RepeatedTimeInterval): MyDate {
+    return this.addTimeIntervals(time.timeInterval, time.times)
+}
+
 enum class TimeInterval {
     DAY,
     WEEK,
     YEAR
 }
+
+operator fun TimeInterval.times(i: Int): RepeatedTimeInterval = RepeatedTimeInterval(this, i)
+
+class RepeatedTimeInterval(var timeInterval: TimeInterval, var times : Int)
 
 class DateRange(val start: MyDate, val endInclusive: MyDate) : Iterable<MyDate> {
     override fun iterator(): Iterator<MyDate> {
