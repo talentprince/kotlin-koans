@@ -14,7 +14,13 @@ fun whatFoldDoes(): Int {
 
 fun Shop.getSetOfProductsOrderedByEveryCustomer(): Set<Product> {
     // Return the set of products ordered by every customer
+//    return customers.fold(allOrderedProducts, {
+//        orderedByAll, customer -> orderedByAll.intersect(customer.orderedProducts)
+//    })
+//    var result = allOrderedProducts
+//    customers.forEach { customer ->  result = result.intersect(customer.orderedProducts) }
+//    return result
     return customers.fold(allOrderedProducts, {
-        orderedByAll, customer -> orderedByAll.intersect(customer.orderedProducts)
+        orderedByAll, customer -> orderedByAll.filter { customer.orderedProducts.contains(it) }.toSet()
     })
 }
